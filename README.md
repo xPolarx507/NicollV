@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>San Valentín</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      background: linear-gradient(45deg, #fbc2eb, #a6c1ee); /* Fondo suave */
+      color: white;
+      text-align: center;
+      flex-direction: column;
+    }
+    .heart {
+      font-size: 50px;
+      color: #ff6f61;
+      cursor: pointer;
+      animation: bounce 1s infinite alternate;
+      transition: transform 0.3s ease;
+    }
+    .heart:hover {
+      transform: scale(1.2);
+    }
+    .question {
+      font-size: 24px;
+      margin: 20px 0;
+    }
+    .heart-container {
+      display: flex;
+      justify-content: center;
+      margin-top: 20px;
+      flex-wrap: wrap;
+      gap: 15px;
+    }
+    .button-container {
+      margin: 20px 0;
+    }
+    .button {
+      padding: 10px 20px;
+      font-size: 16px;
+      cursor: pointer;
+      border: none;
+      border-radius: 20px;
+      margin: 0 10px;
+      transition: transform 0.3s ease;
+    }
+    .button-green {
+      background-color: #4CAF50;
+      color: white;
+    }
+    .button-red {
+      background-color: #f44336;
+      color: white;
+    }
+    #finalMessage {
+      font-size: 36px;
+      font-weight: bold;
+      color: white;
+      display: none;
+      margin-top: 20px;
+    }
+    #finalImage {
+      max-width: 200px; /* Ajustado para que la imagen sea más pequeña */
+      margin-top: 20px;
+      display: none;
+    }
+    #hintMessage {
+      font-size: 18px;
+      color: yellow;
+      margin-top: 20px;
+      display: none;
+    }
+    #noImage {
+      display: none;
+      margin-top: 20px;
+    }
+    @keyframes bounce {
+      0% {
+        transform: translateY(0);
+      }
+      100% {
+        transform: translateY(-10px);
+      }
+    }
+    /* Asegurando que el diseño se vea bien en pantallas pequeñas */
+    @media (max-width: 480px) {
+      .heart {
+        font-size: 40px; /* Reducir tamaño de los corazones en pantallas pequeñas */
+      }
+      .question {
+        font-size: 18px; /* Reducir tamaño de la pregunta */
+      }
+      .button {
+        padding: 8px 15px; /* Reducir tamaño de los botones */
+        font-size: 14px; /* Reducir texto del botón */
+      }
+      #finalMessage {
+        font-size: 28px; /* Reducir tamaño del mensaje final */
+      }
+      #noImage {
+        max-width: 90%; /* Asegurar que la imagen "No" se ajuste a la pantalla */
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="heart-container">
+    <span class="heart" onclick="showHint()">❤️</span>
+    <span class="heart" onclick="showHint()">❤️</span>
+    <span class="heart" onclick="showHint()">❤️</span>
+    <span class="heart" onclick="showHint()">❤️</span>
+    <span class="heart" onclick="showHint()">❤️</span>
+    <span class="heart" onclick="showHint()">❤️</span>
+    <span class="heart" onclick="showHint()">❤️</span>
+    <span class="heart" onclick="showHint()">❤️</span>
+  </div>
+
+  <div class="question">
+    ¿Quieres ser mi San Valentín?
+  </div>
+
+  <div class="button-container">
+    <button class="button button-green" id="yesButton">Sí</button>
+    <button class="button button-red" id="noButton">No</button>
+  </div>
+
+  <div id="hintMessage">
+    ¡No olvides tocar el botón "Sí" para responder! 💖
+  </div>
+
+  <div id="finalMessage">
+    ¡Sabía que aceptarías!
+  </div>
+  <img id="finalImage" src="mocha9final.gif" alt="GIF final">
+
+  <!-- Imagen que aparecerá si el usuario presiona "No" -->
+  <img id="noImage" src="perrito1.png" alt="Imagen triste" />
+
+  <script>
+    // Función para mostrar la insinuación al presionar un corazón
+    function showHint() {
+      const hintMessage = document.getElementById('hintMessage');
+      hintMessage.style.display = 'block';
+      setTimeout(function() {
+        hintMessage.style.display = 'none';
+      }, 3000); // El mensaje se oculta después de 3 segundos
+    }
+
+    // Mostrar el mensaje y la imagen final al presionar "Sí"
+    const yesButton = document.getElementById('yesButton');
+    const gifContainer = document.querySelector('.heart-container');
+    const buttonContainer = document.querySelector('.button-container');
+    const question = document.querySelector('.question');
+    const finalMessage = document.getElementById('finalMessage');
+    const finalImage = document.getElementById('finalImage');
+    const noImage = document.getElementById('noImage');
+
+    yesButton.addEventListener('click', function() {
+      // Ocultar todo el contenido y mostrar el mensaje final con la imagen
+      gifContainer.style.display = 'none';
+      buttonContainer.style.display = 'none';
+      question.style.display = 'none';
+      finalMessage.style.display = 'block';
+      finalImage.style.display = 'block';
+      noImage.style.display = 'none'; // Asegurar que no se muestre la imagen de "No" si se presiona "Sí"
+    });
+
+    // Aumentar tamaño de "Sí" cada vez que presionen "No"
+    const noButton = document.getElementById('noButton');
+    let enlargeCount = 0; // Contador de cuántas veces se ha presionado "No"
+
+    noButton.addEventListener('click', function() {
+      enlargeCount++;
+      yesButton.style.transform = `scale(${1 + enlargeCount * 0.5})`; // Aumenta tamaño cada vez
+      // Mostrar la imagen debajo de la pregunta cuando se presiona "No"
+      noImage.style.display = 'block';
+    });
+  </script>
+
+</body>
+</html>
